@@ -1,24 +1,66 @@
 package com.example;
 
-import net.fabricmc.api.ModInitializer;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+public class MercuryScreen extends Screen {
+    private int panelX = 100;
+    private int panelY = 60;
+    private int panelW = 400;
+    private int panelH = 250;
 
-public class ExampleMod implements ModInitializer {
-	public static final String MOD_ID = "modid";
+    public MercuryScreen() {
+        super(Component.literal("Mercury"));
+    }
 
-	// This logger is used to write text to the console and the log file.
-	// It is considered best practice to use your mod id as the logger's name.
-	// That way, it's clear which mod wrote info, warnings, and errors.
-	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+    @Override
+    public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+        renderBackground(graphics, mouseX, mouseY, delta);
 
-	@Override
-	public void onInitialize() {
-		// This code runs as soon as Minecraft is in a mod-load-ready state.
-		// However, some things (like resources) may still be uninitialized.
-		// Proceed with mild caution.
+        // Main panel
+        graphics.fill(panelX, panelY, panelX + panelW, panelY + panelH, 0xDD1A1A1A);
 
-		LOGGER.info("Hello Fabric world!");
-	}
+        // Header
+        graphics.fill(panelX, panelY, panelX + panelW, panelY + 20, 0xFF2A2A2A);
+
+        graphics.drawString(
+            font,
+            "Mercury",
+            panelX + 6,
+            panelY + 6,
+            0xFFFFFF,
+            false
+        );
+
+        // Categories
+        graphics.fill(panelX + 5, panelY + 25, panelX + 100, panelY + 245, 0xFF202020);
+
+        graphics.drawString(font, "Combat", panelX + 10, panelY + 35, 0xFFFFFF, false);
+        graphics.drawString(font, "Movement", panelX + 10, panelY + 50, 0x00FF00, false);
+        graphics.drawString(font, "Render", panelX + 10, panelY + 65, 0xFFFFFF, false);
+        graphics.drawString(font, "World", panelX + 10, panelY + 80, 0xFFFFFF, false);
+
+        // Modules
+        graphics.fill(panelX + 110, panelY + 25, panelX + 395, panelY + 245, 0xFF202020);
+
+        graphics.drawString(font, "[ON] Sprint", panelX + 120, panelY + 40, 0x00FF00, false);
+        graphics.drawString(font, "[ON] Speed", panelX + 120, panelY + 55, 0x00FF00, false);
+        graphics.drawString(font, "[OFF] Fly", panelX + 120, panelY + 70, 0xFF5555, false);
+
+        // Settings panel
+        graphics.fill(panelX + 260, panelY + 35, panelX + 390, panelY + 180, 0xFF252525);
+
+        graphics.drawString(font, "Fly Settings", panelX + 270, panelY + 45, 0xFFFFFF, false);
+        graphics.drawString(font, "Mode: Vanilla", panelX + 270, panelY + 65, 0xAAAAAA, false);
+        graphics.drawString(font, "Speed: 2.5", panelX + 270, panelY + 80, 0xAAAAAA, false);
+        graphics.drawString(font, "Anti-Kick: ON", panelX + 270, panelY + 95, 0xAAAAAA, false);
+
+        super.render(graphics, mouseX, mouseY, delta);
+    }
+
+    @Override
+    public boolean isPauseScreen() {
+        return false;
+    }
 }
